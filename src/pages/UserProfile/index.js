@@ -1,14 +1,35 @@
-import React from 'react';
+import React, {useEffect, useState} from 'react';
 import {StyleSheet, Text, View} from 'react-native';
+import {ILNullPhoto} from '../../assets';
 import {Header, Jarak, List, Profile} from '../../components';
-import {Warna} from '../../utils';
+import {getData, Warna} from '../../utils';
 
 const UserProfile = ({navigation}) => {
+  const [profile, setProfile] = useState({
+    fullname: '',
+    photo: '',
+    job: ILNullPhoto,
+  });
+  useEffect(() => {
+    getData('user').then(res => {
+      const data = res;
+      res.photo = {uri: res.photo};
+      console.log(data);
+      setProfile(data);
+    });
+  }, []);
   return (
     <View style={styles.page}>
       <Header title="Profile" onPress={() => navigation.goBack()} />
       <Jarak height={10} />
-      <Profile name="Vandy" desc="Dokter Ganteng" />
+      {profile.fullname.length > 0 && (
+        <Profile
+          name={profile.fullname}
+          photo={profile.photo}
+          desc={profile.job}
+        />
+      )}
+
       <Jarak height={14} />
       <List
         name="Edit Profile"

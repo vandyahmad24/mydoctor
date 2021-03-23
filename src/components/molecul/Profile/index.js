@@ -1,15 +1,23 @@
 import React from 'react';
-import {Image, StyleSheet, Text, View} from 'react-native';
-import {DumPhoto, ICRemovePhoto} from '../../../assets';
+import {Image, StyleSheet, Text, View, TouchableOpacity} from 'react-native';
+import {ICRemovePhoto} from '../../../assets';
 import {jenfonts, Warna} from '../../../utils';
 
-const Profile = ({name, desc, isRemove}) => {
+const Profile = ({name, desc, isRemove, photo, onPress}) => {
   return (
     <View style={styles.page}>
-      <View style={styles.container}>
-        <Image source={DumPhoto} style={styles.avatar} />
-        {isRemove && <ICRemovePhoto style={styles.removePhoto} />}
-      </View>
+      {!isRemove && (
+        <View style={styles.container}>
+          <Image source={photo} style={styles.avatar} />
+          {isRemove && <ICRemovePhoto style={styles.removePhoto} />}
+        </View>
+      )}
+      {isRemove && (
+        <TouchableOpacity onPress={onPress} style={styles.container}>
+          <Image source={photo} style={styles.avatar} />
+          {isRemove && <ICRemovePhoto style={styles.removePhoto} />}
+        </TouchableOpacity>
+      )}
       <Text style={styles.name}>{name}</Text>
       <Text style={styles.job}>{desc}</Text>
     </View>

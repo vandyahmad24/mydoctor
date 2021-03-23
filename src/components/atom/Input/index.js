@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import {StyleSheet, Text, TextInput, View} from 'react-native';
 import {Warna} from '../../../utils';
 
-const index = ({label, value, onChangeText, secureTextEntry}) => {
+const index = ({label, value, onChangeText, secureTextEntry, disable}) => {
   const [border, setBorder] = useState(Warna.borderInput);
   const onFocusForm = () => {
     setBorder(Warna.blue);
@@ -21,6 +21,8 @@ const index = ({label, value, onChangeText, secureTextEntry}) => {
         value={value}
         onChangeText={onChangeText}
         secureTextEntry={secureTextEntry}
+        editable={!disable}
+        selectTextOnFocus={!disable}
       />
     </View>
   );
