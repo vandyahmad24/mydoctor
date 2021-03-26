@@ -12,10 +12,8 @@ const HomeProfile = ({onPress}) => {
   });
   useEffect(() => {
     getData('user').then(result => {
-      // console.log('data user: ', result);
       const data = result;
       data.photo = {uri: result.photo};
-      console.log('new Profile', data);
       setProfile(data);
     });
   }, []);

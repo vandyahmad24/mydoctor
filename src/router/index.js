@@ -59,6 +59,7 @@ const Router = () => {
         component={UploadPhoto}
         options={{headerShown: false}}
       />
+      
       <Stack.Screen
         name="MainApp"
         component={MainApp}

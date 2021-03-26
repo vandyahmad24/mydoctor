@@ -1,6 +1,5 @@
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, View} from 'react-native';
-import {showMessage} from 'react-native-flash-message';
 import {ScrollView} from 'react-native-gesture-handler';
 import {ILNullPhoto} from '../../assets';
 import {Button, Header, Input, Jarak, Profile} from '../../components';
@@ -8,6 +7,7 @@ import {Firebase} from '../../config';
 import {getData, storeData, Warna} from '../../utils';
 
 import {launchImageLibrary} from 'react-native-image-picker';
+import {showError, showSuccess} from '../../utils/showMessage';
 
 const EditProfile = ({navigation}) => {
   const [profile, setProfile] = useState({
@@ -26,58 +26,34 @@ const EditProfile = ({navigation}) => {
       const data = res;
       setPhoto({uri: res.photo});
       setPhotoLama({uri: res.photo});
-      console.log(data);
       setProfile(data);
     });
   }, []);
 
   const update = () => {
-    console.log('profile', profile);
-
-    console.log('New Password ', password);
     if (password.length > 0) {
       if (password.length < 6) {
-        showMessage({
-          message: 'Password Must be Min 6 Character',
-          type: 'default',
-          backgroundColor: Warna.Message.danger,
-          color: Warna.white,
-        });
+        showError('Password Must be Min 6 Character');
       } else {
         //  update password
-        updatePasswordData();
+        rubahPassword();
         updateProfileData();
-        showMessage({
-          message: 'Profil berhasil di update',
-          type: 'default',
-          backgroundColor: Warna.Message.success,
-          color: Warna.white,
-        });
+        showSuccess('Profil berhasil di update');
         navigation.replace('MainApp');
       }
     } else {
       // update profile
       updateProfileData();
-      showMessage({
-        message: 'Profil berhasil di update',
-        type: 'default',
-        backgroundColor: Warna.Message.success,
-        color: Warna.white,
-      });
+      showSuccess('Profil berhasil di update');
       navigation.replace('MainApp');
     }
   };
 
-  const updatePasswordData = () => {
+  const rubahPassword = () => {
     Firebase.auth().onAuthStateChanged(user => {
       if (user) {
         user.updatePassword(password).catch(err => {
-          showMessage({
-            message: err.message,
-            type: 'default',
-            backgroundColor: Warna.Message.danger,
-            color: Warna.white,
-          });
+          showError(err.message);
         });
       }
     });
@@ -86,20 +62,15 @@ const EditProfile = ({navigation}) => {
   const updateProfileData = () => {
     const data = profile;
     data.photo = photoForDB;
+    console.log("dari edit profile", data);
     Firebase.database()
       .ref(`users/${profile.uid}/`)
       .update(data)
       .then(res => {
-        console.log('hasil upload', data);
         storeData('user', data);
       })
       .catch(err => {
-        showMessage({
-          message: err.message,
-          type: 'default',
-          backgroundColor: Warna.Message.danger,
-          color: Warna.white,
-        });
+        showError(err.message);
       });
   };
 
@@ -114,15 +85,8 @@ const EditProfile = ({navigation}) => {
     launchImageLibrary(
       {quality: 1, maxWidth: 115, maxHeight: 115, includeBase64: true},
       response => {
-        console.log(response);
-
         if (response.didCancel == true || response.error) {
-          showMessage({
-            message: 'Ops, Sepertinya anda tidak memiliki foto',
-            type: 'default',
-            backgroundColor: Warna.Message.danger,
-            color: Warna.white,
-          });
+          showError('Ops, Sepertinya anda tidak memiliki foto');
           setPhoto(photoLama);
         } else {
           console.log('response get ', response);

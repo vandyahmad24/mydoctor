@@ -8,10 +8,10 @@ const DoctorCategory = ({category, onPress}) => {
     if (category === 'psikiater') {
       return <IClove style={styles.illustration} />;
     }
-    if (category === 'dokter obat') {
+    if (category === 'Dokter Obat') {
       return <ICObat style={styles.illustration} />;
     }
-    if (category === 'dokter umum') {
+    if (category === 'Dokter Umum') {
       return <ICSuntik style={styles.illustration} />;
     }
     return <IClove style={styles.illustration} />;

@@ -6,17 +6,17 @@ import {Warna} from '../../utils';
 
 const Splash = ({navigation}) => {
   useEffect(() => {
-    setTimeout(() => {
-      Firebase.auth().onAuthStateChanged(user => {
+    const unSubscribe = Firebase.auth().onAuthStateChanged(user => {
+      setTimeout(() => {
         if (user) {
-          console.log(user);
           navigation.replace('MainApp');
         } else {
           navigation.replace('GetStarted');
         }
-      });
-    }, 3000);
-  }, []);
+      }, 2000);
+    });
+    return () => unSubscribe();
+  }, [navigation]);
   // array koosng berfungsi supaya useEffect tidak dipanggil terus menerus
 
   return (

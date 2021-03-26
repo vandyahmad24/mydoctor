@@ -15,7 +15,11 @@ const InputChat = () => {
 export default InputChat;
 
 const styles = StyleSheet.create({
-  container: {padding: 16, flexDirection: 'row'},
+  container: {
+    padding: 16,
+    flexDirection: 'row',
+    backgroundColor: Warna.white,
+  },
   input: {
     backgroundColor: Warna.disable,
     padding: 14,

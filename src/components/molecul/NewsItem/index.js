@@ -1,18 +1,15 @@
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
-import {DumNews} from '../../../assets';
 import {jenfonts, Warna} from '../../../utils';
 
-const NewsItem = () => {
+const NewsItem = ({title, date, image}) => {
   return (
     <View style={styles.container}>
       <View style={styles.wrapperText}>
-        <Text style={styles.title}>
-          Is it safe to stay at home during coronavirus?
-        </Text>
-        <Text style={styles.day}>Today</Text>
+        <Text style={styles.title}>{title}</Text>
+        <Text style={styles.day}>{date}</Text>
       </View>
-      <Image source={DumNews} style={styles.image} />
+      <Image source={{uri: image}} style={styles.image} />
     </View>
   );
 };

@@ -1,10 +1,15 @@
+import AsyncStorage from '@react-native-async-storage/async-storage';
 import React, {useEffect, useState} from 'react';
-import {StyleSheet, Text, View} from 'react-native';
+import {StyleSheet, View} from 'react-native';
 import {ILNullPhoto} from '../../assets';
 import {Header, Jarak, List, Profile} from '../../components';
+import {Firebase} from '../../config';
 import {getData, Warna} from '../../utils';
+import {showError} from '../../utils/showMessage';
+import {useDispatch} from 'react-redux';
 
 const UserProfile = ({navigation}) => {
+  const dispatch = useDispatch();
   const [profile, setProfile] = useState({
     fullname: '',
     photo: '',
@@ -14,10 +19,28 @@ const UserProfile = ({navigation}) => {
     getData('user').then(res => {
       const data = res;
       res.photo = {uri: res.photo};
-      console.log(data);
       setProfile(data);
     });
   }, []);
+
+  const logOut = () => {
+    dispatch({type: 'SET_LOADING', value: true});
+
+    Firebase.auth()
+      .signOut()
+      .then(res => {
+        dispatch({type: 'SET_LOADING', value: false});
+        clearAllData();
+        navigation.replace('GetStarted');
+      })
+      .catch(err => {
+        showError(err.message);
+      });
+  };
+  const clearAllData = () => {
+    AsyncStorage.getAllKeys().then(keys => AsyncStorage.multiRemove(keys));
+  };
+
   return (
     <View style={styles.page}>
       <Header title="Profile" onPress={() => navigation.goBack()} />
@@ -50,12 +73,7 @@ const UserProfile = ({navigation}) => {
         icon="bintang"
         type="next"
       />
-      <List
-        name="Help Center"
-        msg="Read our guidelines"
-        type="next"
-        icon="help"
-      />
+      <List name="Log out" type="next" icon="help" onPress={logOut} />
     </View>
   );
 };

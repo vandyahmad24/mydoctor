@@ -1,8 +1,8 @@
 import React from 'react';
-import { ImageBackground, StyleSheet, Text, View } from 'react-native';
-import { ILGetStarted, ILLogo } from '../../assets';
-import { Button, Jarak } from '../../components';
-import { Warna } from '../../utils';
+import {ImageBackground, StyleSheet, Text, View} from 'react-native';
+import {ILGetStarted, ILLogo} from '../../assets';
+import {Button, Jarak} from '../../components';
+import {Warna} from '../../utils';
 
 const GetStarted = ({navigation}) => {
   return (

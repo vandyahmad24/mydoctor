@@ -4,30 +4,25 @@ import {ICRemovePhoto, ICUploadPhoto, ILNullPhoto} from '../../assets';
 import {Button, Header, Jarak, Link} from '../../components';
 import {jenfonts, storeData, Warna} from '../../utils';
 import {launchImageLibrary} from 'react-native-image-picker';
-import {showMessage} from 'react-native-flash-message';
 import {Firebase} from '../../config';
+import {showError} from '../../utils/showMessage';
+import {useDispatch} from 'react-redux';
+
 const UploadPhoto = ({navigation, route}) => {
-  const {fullname, job, email, uid} = route.params;
+  const dispatch = useDispatch();
+  const {fullname, job, uid} = route.params;
   const [hasPhoto, setHasPhoto] = useState(false);
   const [photo, setPhoto] = useState(ILNullPhoto);
   const [photoForDB, setPhotoForDB] = useState('');
   const getPhoto = () => {
     launchImageLibrary(
-      {quality: 1, maxWidth: 115, maxHeight: 115, includeBase64: true},
+      {quality: 0.4, maxWidth: 115, maxHeight: 115, includeBase64: true},
       response => {
-        console.log(response);
-
         if (response.didCancel == true || response.error) {
-          showMessage({
-            message: 'Ops, Sepertinya anda tidak memiliki foto',
-            type: 'default',
-            backgroundColor: Warna.Message.danger,
-            color: Warna.white,
-          });
+          showError('Ops, Sepertinya anda tidak memiliki foto');
           setPhoto(ILNullPhoto);
           setHasPhoto(false);
         } else {
-          console.log('response get ', response);
           setPhotoForDB(`data:${response.type};base64, ${response.base64}`);
           const source = {uri: response.uri};
           setPhoto(source);
@@ -38,14 +33,21 @@ const UploadPhoto = ({navigation, route}) => {
   };
 
   const uploadContinue = () => {
+    dispatch({type: 'SET_LOADING', value: true});
     Firebase.database()
       .ref('users/' + uid + '/')
-      .update({photo: photoForDB});
-
-    const data = route.params;
-    data.photo = photoForDB;
-    storeData('user', data);
-    navigation.replace('MainApp');
+      .update({photo: photoForDB})
+      .then(result => {
+        dispatch({type: 'SET_LOADING', value: false});
+        const data = route.params;
+        data.photo = photoForDB;
+        storeData('user', data);
+        console.log(data);
+        navigation.replace('MainApp');
+      })
+      .catch(err => {
+        showError(err.message);
+      });
   };
   // useState
   return (

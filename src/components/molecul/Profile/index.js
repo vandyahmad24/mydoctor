@@ -42,12 +42,14 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: jenfonts.primary[600],
     color: Warna.text.primary,
+    textTransform: 'capitalize',
   },
   job: {
     fontSize: 16,
     fontFamily: jenfonts.primary[600],
     color: Warna.text.secondary,
     marginTop: 5,
+    textTransform: 'capitalize',
   },
   removePhoto: {position: 'absolute', right: 8, bottom: 8},
 });
