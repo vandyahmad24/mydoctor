@@ -3,17 +3,15 @@ import {Image, StyleSheet, Text, View} from 'react-native';
 import {DumPhoto} from '../../../assets';
 import {jenfonts, Warna} from '../../../utils';
 
-const Other = () => {
+const Other = ({content, date, photo}) => {
   return (
     <View style={styles.container}>
-      <Image source={DumPhoto} style={styles.avatar} />
+      <Image source={photo} style={styles.avatar} />
       <View>
         <View style={styles.chatContent}>
-          <Text style={styles.text}>
-            Ibu dokter, apakah memakan jeruk tiap hari itu buruk?
-          </Text>
+          <Text style={styles.text}>{content}</Text>
         </View>
-        <Text style={styles.time}>4.20 AM</Text>
+        <Text style={styles.time}>{date}</Text>
       </View>
     </View>
   );

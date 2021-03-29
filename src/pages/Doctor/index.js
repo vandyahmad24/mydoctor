@@ -37,7 +37,9 @@ const Doctor = ({navigation}) => {
       .once('value')
       .then(res => {
         if (res.val()) {
-          setNews(res.val());
+          const data = res.val();
+          const dataFilter = data.filter(el => el !== null);
+          setNews(dataFilter);
           console.log('dari news', news);
         }
       })
@@ -51,7 +53,9 @@ const Doctor = ({navigation}) => {
       .once('value')
       .then(res => {
         if (res.val()) {
-          setCategoryDoctor(res.val());
+          const data = res.val();
+          const dataFilter = data.filter(el => el !== null);
+          setCategoryDoctor(dataFilter);
           console.log('dari category', categoryDoctor);
         }
       })
@@ -107,7 +111,9 @@ const Doctor = ({navigation}) => {
                     <DoctorCategory
                       category={doctor.category}
                       key={doctor.id}
-                      onPress={() => navigation.navigate('ChooseDoctor', doctor)}
+                      onPress={() =>
+                        navigation.navigate('ChooseDoctor', doctor)
+                      }
                     />
                   );
                 })}

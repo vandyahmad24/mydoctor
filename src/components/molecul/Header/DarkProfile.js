@@ -1,18 +1,17 @@
 import React from 'react';
 import {Image, StyleSheet, Text, View} from 'react-native';
-import {DumList2} from '../../../assets';
 import {jenfonts, Warna} from '../../../utils';
 import {Button} from '../../atom';
 
-const DarkProfile = ({onPress}) => {
+const DarkProfile = ({onPress, title, job, pic}) => {
   return (
     <View style={styles.container}>
-      <Button type="icon-only" icon="back-light" onPress={onPress}/>
+      <Button type="icon-only" icon="back-light" onPress={onPress} />
       <View style={styles.content}>
-        <Text style={styles.name}>Nama Dokter</Text>
-        <Text style={styles.desc}>Spesialis dokter</Text>
+        <Text style={styles.name}>{title}</Text>
+        <Text style={styles.desc}>{job}</Text>
       </View>
-      <Image source={DumList2} style={styles.avatar} />
+      <Image source={pic} style={styles.avatar} />
     </View>
   );
 };

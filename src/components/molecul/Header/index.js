@@ -4,9 +4,9 @@ import {Warna} from '../../../utils';
 import {Button, Jarak} from '../../atom';
 import DarkProfile from './DarkProfile';
 
-const Header = ({onPress, title, type}) => {
-  if(type=='dark-profile'){
-    return <DarkProfile onPress={onPress}/>
+const Header = ({onPress, title, type, job, pic}) => {
+  if (type == 'dark-profile') {
+    return <DarkProfile onPress={onPress} title={title} job={job} pic={pic} />;
   }
   return (
     <View style={styles.page(type)}>

@@ -13,7 +13,7 @@ const ChooseDoctor = ({navigation, route}) => {
   useEffect(() => {
     DoctorByCategory(Doctor.category);
     console.log('List dokter', listDoctor);
-  }, []);
+  }, [Doctor.category]);
   const DoctorByCategory = category => {
     Firebase.database()
       .ref('doctors/')
@@ -39,8 +39,6 @@ const ChooseDoctor = ({navigation, route}) => {
       });
   };
 
-  
-
   return (
     <View style={styles.page}>
       <Header
@@ -51,7 +49,11 @@ const ChooseDoctor = ({navigation, route}) => {
       />
       {loading && <List name="Mohon Tunggu" msg="" pic={ILNullPhoto} />}
       {isKosong && (
-        <List name="Dokter Belum ada" msg="Mohon Maaf Dokter Belum ada" pic={ILNullPhoto} />
+        <List
+          name="Dokter Belum ada"
+          msg="Mohon Maaf Dokter Belum ada"
+          pic={ILNullPhoto}
+        />
       )}
       {listDoctor.map(doctor => {
         return (
